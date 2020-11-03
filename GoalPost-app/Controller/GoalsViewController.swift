@@ -19,6 +19,7 @@ class GoalsViewController: UIViewController {
     
 
     @IBAction func addGoalBtnWasPressed(_ sender: Any) {
+        print("Add Goal Btn was pressed.")
     }
     
 
