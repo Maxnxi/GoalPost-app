@@ -15,6 +15,10 @@
 		B916BDFD2551567200BBEA6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B916BDFB2551567200BBEA6C /* LaunchScreen.storyboard */; };
 		B916BE122551664400BBEA6C /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE112551664400BBEA6C /* GoalsViewController.swift */; };
 		B916BE15255173EF00BBEA6C /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE14255173EF00BBEA6C /* GoalCell.swift */; };
+		B916BE1B25517EC000BBEA6C /* GoalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE1A25517EC000BBEA6C /* GoalType.swift */; };
+		B916BE1F2551857600BBEA6C /* CreateGoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE1E2551857600BBEA6C /* CreateGoalVC.swift */; };
+		B916BE23255188A500BBEA6C /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE22255188A500BBEA6C /* UIViewControllerExtension.swift */; };
+		B916BE2725518FB900BBEA6C /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B916BE2625518FB900BBEA6C /* UIViewExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		B916BDFE2551567200BBEA6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B916BE112551664400BBEA6C /* GoalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
 		B916BE14255173EF00BBEA6C /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
+		B916BE1A25517EC000BBEA6C /* GoalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalType.swift; sourceTree = "<group>"; };
+		B916BE1E2551857600BBEA6C /* CreateGoalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGoalVC.swift; sourceTree = "<group>"; };
+		B916BE22255188A500BBEA6C /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		B916BE2625518FB900BBEA6C /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +68,8 @@
 		B916BDEC2551567100BBEA6C /* GoalPost-app */ = {
 			isa = PBXGroup;
 			children = (
+				B916BE212551888D00BBEA6C /* Extensions */,
+				B916BE1925517EAC00BBEA6C /* Enum */,
 				B916BE0825515CC200BBEA6C /* Controller */,
 				B916BE0725515CBD00BBEA6C /* View */,
 				B916BE0625515CB700BBEA6C /* Model */,
@@ -93,8 +103,26 @@
 			isa = PBXGroup;
 			children = (
 				B916BE112551664400BBEA6C /* GoalsViewController.swift */,
+				B916BE1E2551857600BBEA6C /* CreateGoalVC.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		B916BE1925517EAC00BBEA6C /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				B916BE1A25517EC000BBEA6C /* GoalType.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		B916BE212551888D00BBEA6C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B916BE22255188A500BBEA6C /* UIViewControllerExtension.swift */,
+				B916BE2625518FB900BBEA6C /* UIViewExt.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,9 +195,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B916BE2725518FB900BBEA6C /* UIViewExt.swift in Sources */,
 				B916BDEE2551567100BBEA6C /* AppDelegate.swift in Sources */,
 				B916BE122551664400BBEA6C /* GoalsViewController.swift in Sources */,
+				B916BE1B25517EC000BBEA6C /* GoalType.swift in Sources */,
 				B916BDF82551567100BBEA6C /* GoalPost_app.xcdatamodeld in Sources */,
+				B916BE23255188A500BBEA6C /* UIViewControllerExtension.swift in Sources */,
+				B916BE1F2551857600BBEA6C /* CreateGoalVC.swift in Sources */,
 				B916BE15255173EF00BBEA6C /* GoalCell.swift in Sources */,
 				B916BDF02551567100BBEA6C /* SceneDelegate.swift in Sources */,
 			);
