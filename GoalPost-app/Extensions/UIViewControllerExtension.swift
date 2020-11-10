@@ -9,7 +9,7 @@ import UIKit
 
 extension UIViewController {
     func presentDetail(_ viewControllerToPresent: UIViewController) {
-        let transition = CATransition()
+        //let transition = CATransition()
         //transition.duration = 0.3
         //transition.type = CATransitionType.moveIn
         //transition.
@@ -25,7 +25,7 @@ extension UIViewController {
     }
     
     func presentSecondaryDetail(_ viewControllerToPresent: UIViewController) {
-        let transition = CATransition()
+       // let transition = CATransition()
 //        transition.duration = 0.3
 //        transition.type = CATransitionType.push
 //        transition.subtype = CATransitionSubtype.fromRight
@@ -36,7 +36,8 @@ extension UIViewController {
         
         presentedViewController.dismiss(animated: false) {
             //self.view.window?.layer.add(transition, forKey: kCATransition)
-            
+            viewControllerToPresent.modalTransitionStyle = .flipHorizontal
+            viewControllerToPresent.modalPresentationCapturesStatusBarAppearance = true
             viewControllerToPresent.modalPresentationStyle = .fullScreen
             
             self.present(viewControllerToPresent, animated: false, completion: nil)
@@ -45,11 +46,13 @@ extension UIViewController {
     }
     
     func dismissDetail() {
-        let transition = CATransition()
-//        transition.duration = 0.3
-//        transition.type = CATransitionType.push
-//        transition.subtype = CATransitionSubtype.fromLeft
-//        self.view.window?.layer.add(transition, forKey: kCATransition)
+    let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        transition.fillMode = .backwards
+        transition.accessibilityViewIsModal = true
+        self.view.window?.layer.add(transition, forKey: kCATransition)
         
         dismiss(animated: false, completion: nil)
         

@@ -19,14 +19,11 @@ class FinischCreateGoalVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        
     }
     
     func setupView() {
         createBtn.bindToKeyboard()
         pointsToComplete.delegate = self
-        
-        
     }
     
     func initData(description: String, goalType: GoalType) {
@@ -43,25 +40,14 @@ class FinischCreateGoalVC: UIViewController, UITextFieldDelegate {
         dismissDetail()
     }
     @IBAction func createGoalBtnWasPressed(_ sender: Any) {
-        
-//        if goalDescription != "" && goalDescription != "What is your Goal?" {
             if pointsToComplete.text != "" {
             print("create goal Btn Was Pressed!")
-            
-            //print("your goal is: \(goalDescription), it is \(goalType.rawValue) goal,\n and it needs to be done \(pointsToComplete.text) times")
-            
             self.saveData { (complete) in
                 if complete{
-                    dismiss(animated: true, completion: nil)
-                    
-//                    let viewOfCreateGoalVC = CreateGoalVC()
-//                    viewOfCreateGoalVC.dismiss(animated: false, completion: nil)
+                    dismissDetail()
                 }
             }
         }
-//        }
-        //GoalsViewController.tableView.reloadData()
-        
     }
     
     func saveData(completion: (_ finished: Bool) -> ()) {

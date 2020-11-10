@@ -13,32 +13,35 @@ let appDelegate = UIApplication.shared.delegate as? AppDelegate
 class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     var goals: [Goal] = []
+    
+    //var deletedGoal: Goal!
+    
+    var deletedGoalDescription: String!
+    var deletedGoalType: String!
+    var deletedGoalProgress: Int32!
+    var deletedGoalComplitionValue:Int32!
+    //var deletedGoals: [DeletedGoal] = []
 
+    // OUTLETS
     @IBOutlet weak var welcomeLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var unDeleteView: UIView!
     
-    
-    
-    //let goal = Goal()
-    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    setupView()
-        //tableView.reloadData()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        tableView.reloadData()
-//        var indexSet = IndexSet()
-//
-//        tableView.reloadSections(, with: .automatic)
-        
+        print("viewWillAppear works")
         fetchCoreeDataObjects()
+        //deletedGoal = Goal()
+        unDeleteView.isHidden = true
+        tableView.reloadData()
+        
     }
     
     func fetchCoreeDataObjects() {
@@ -54,53 +57,74 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
     }
-//    override func viewWillLayoutSubviews() {
-//        print("viewWillLayoutSubviews works")
-//        tableView.reloadData()
-//
-//    }
-    
-//    override func loadView() {
-//        print("loadView works")
-//        tableView.reloadData()
-//    }
-    
-//    override func show(_ vc: UIViewController, sender: Any?) {
-//        print("show works")
-//        tableView.reloadData()
-//    }
-    
-    
-    
+
     func setupView(){
-        
         tableView.delegate = self
         tableView.dataSource = self
-       // tableView.isHidden = false
+        spinner.isHidden = true
+        unDeleteView.isHidden = true
+        
+        let closetouch = UITapGestureRecognizer(target: self, action: #selector(GoalsViewController.closeTap(_:)))
+        tableView.addGestureRecognizer(closetouch )
     }
     
+    @objc func closeTap(_ recognizer: UITapGestureRecognizer){
+        unDeleteView.isHidden = true
+    }
 
+    // IBACTIONS
+    
     @IBAction func addGoalBtnWasPressed(_ sender: Any) {
         print("Add Goal Btn was pressed.")
        guard let createGoalVC = storyboard?.instantiateViewController(withIdentifier: "CreateGoalVC") else {return}
-        
         presentDetail(createGoalVC)
-        //createGoalVC.modalTransitionStyle = .flipHorizontal
-        //createGoalVC.modalPresentationStyle = .fullScreen
-        //present(createGoalVC, animated: true, completion: nil)
     }
+    
+    @IBAction func unDeleteBtnWasPressed(_ sender: Any) {
+        
+        saveDeletedData { (complete) in
+            if complete {
+                unDeleteView.isHidden = true
+            }
+        }
+    }
+    
+    func saveDeletedData(completion: (_ finished: Bool) -> ()) {
+        guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
+        let uNgoal = Goal(context: managedContext)
+        uNgoal.goalDesription = deletedGoalDescription
+        uNgoal.goalType = deletedGoalType
+        uNgoal.goalProgres = deletedGoalProgress
+        uNgoal.goalCompletionValue = deletedGoalComplitionValue
+//        uNgoal.goalDesription = deletedGoal.goalDesription
+//        print(uNgoal.goalDesription)
+//        uNgoal.goalType = deletedGoal.goalType
+//        uNgoal.goalCompletionValue = deletedGoal.goalCompletionValue
+//        uNgoal.goalProgres = deletedGoal.goalProgres
+        
+        print("\n\n\n Deleted goal was: \(uNgoal.goalDesription)")
+        do{
+       try managedContext.save()
+            print("Successfully saved back Deleted data.")
+                        completion(true)
+            fetchCoreeDataObjects()
+            tableView.reloadData()
+        } catch {
+            debugPrint("Could not save: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
+    
+    // TABLEVIEW property
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return goals.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "goalCell") as? GoalCell else {return UITableViewCell()}
         let goal = goals[indexPath.row]
-        
         cell.configureCell(goal: goal)
-        
         return cell
     }
     
@@ -119,8 +143,8 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.removeGoal(atIndexPath: indexPath)
             self.fetchCoreeDataObjects()
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            
         }
-        
         let addAction = UITableViewRowAction(style: .normal, title: "ADD 1") { (rowAction, indexPath) in
             self.setProgressForGoal(atIndexPath: indexPath)
             tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -133,37 +157,40 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         print("begin draging")
+        spinner.isHidden = false
+        spinner.startAnimating()
         tableView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        tableView.reloadData()
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        print("stop draging")
+        spinner.isHidden = true
+        spinner.stopAnimating()
+        unDeleteView.isHidden = true
     }
     
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        
-let sureToDelete = "to delete?"
-        return sureToDelete
-    }
+//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+//
+//let sureToDelete = "to delete?"
+//        print("title for delete")
+//        return sureToDelete
+//    }
     
     func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
         tableView.reloadData()
         return true
     }
-    
 }
 
+// EXTENSION
 extension GoalsViewController {
+    
     func fetch(completion:(_ complete: Bool ) -> ()) {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
-        
-       // let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Goal")
         let fetchRequest = NSFetchRequest<Goal>(entityName: "Goal")
-        
         do {
             goals = try managedContext.fetch(fetchRequest)
             print("Succesfully fetch from DB")
-           // tableView.reloadData()
             completion(true)
         } catch {
             debugPrint("Could not fetch \(error.localizedDescription)")
@@ -174,6 +201,17 @@ extension GoalsViewController {
     func removeGoal(atIndexPath indexPath: IndexPath) {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
         
+        let goalToDelete:Goal = goals[indexPath.row]
+        
+        deletedGoalDescription = goalToDelete.goalDesription
+        deletedGoalType = goalToDelete.goalType
+        deletedGoalProgress = goalToDelete.goalProgres
+        deletedGoalComplitionValue = goalToDelete.goalCompletionValue
+        //deletedGoalType = goalToDelete.goalType
+        //deletedGoal = goalToDelete
+        print("\n\nto delete: \(deletedGoalDescription)")
+        unDeleteView.isHidden = false
+        
         managedContext.delete(goals[indexPath.row])
         do {
             try managedContext.save()
@@ -181,14 +219,13 @@ extension GoalsViewController {
         } catch {
             debugPrint("\nCould not remove \(error.localizedDescription)")
         }
-        
     }
+    
+    
     
     func setProgressForGoal(atIndexPath indexPath: IndexPath) {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
-        
         let chosenGoal = goals[indexPath.row]
-        
         if chosenGoal.goalProgres < chosenGoal.goalCompletionValue {
             chosenGoal.goalProgres = chosenGoal.goalProgres + 1
         } else {
@@ -201,4 +238,6 @@ extension GoalsViewController {
             debugPrint("Could not set progress: \(error.localizedDescription)")
         }
     }
+    
+    
 }

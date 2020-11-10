@@ -150,15 +150,61 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWA-em-BVT" userLabel="unDeleteView">
+                                <rect key="frame" x="0.0" y="676" width="414" height="60"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This Chance to " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6p-C2-cbI">
+                                        <rect key="frame" x="130.33333333333331" y="15.666666666666629" width="153.33333333333331" height="29"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="21"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ha-0Z-xCQ">
+                                        <rect key="frame" x="283" y="9.6666666666666288" width="120" height="41"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="udO-cM-Fwj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="21"/>
+                                        <state key="normal" title="UNDELETE">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="unDeleteBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="82y-V5-LoA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <constraints>
+                                    <constraint firstItem="1Ha-0Z-xCQ" firstAttribute="centerY" secondItem="U6p-C2-cbI" secondAttribute="centerY" id="5tF-Ct-Ibo"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="1Ha-0Z-xCQ" secondAttribute="trailing" constant="3" id="OxH-Mx-iOb"/>
+                                    <constraint firstItem="U6p-C2-cbI" firstAttribute="centerX" secondItem="DWA-em-BVT" secondAttribute="centerX" id="Snp-GA-FaT"/>
+                                    <constraint firstItem="U6p-C2-cbI" firstAttribute="centerY" secondItem="DWA-em-BVT" secondAttribute="centerY" id="ccb-Xl-WiN"/>
+                                    <constraint firstAttribute="height" constant="60" id="e1N-Wo-F4V"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="zOw-zh-MWj">
+                                <rect key="frame" x="187" y="135" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="bxY-fP-zKV"/>
+                                    <constraint firstAttribute="width" constant="40" id="hcx-Pd-yvg"/>
+                                </constraints>
+                                <color key="color" red="0.025382646685359753" green="0.67732788705583757" blue="0.13037987444370644" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="zOw-zh-MWj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2C2-fB-sDT"/>
                             <constraint firstItem="dbm-TT-7RT" firstAttribute="top" secondItem="ze5-X2-cge" secondAttribute="bottom" id="7gM-zs-hTB"/>
                             <constraint firstItem="dbm-TT-7RT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9mS-bM-Bn5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DWA-em-BVT" secondAttribute="bottom" id="HzH-0U-SUL"/>
+                            <constraint firstItem="zOw-zh-MWj" firstAttribute="top" secondItem="ze5-X2-cge" secondAttribute="bottom" constant="45" id="QUg-Ov-QaG"/>
                             <constraint firstItem="V2Y-NX-iYx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SBi-o4-C5B"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DWA-em-BVT" secondAttribute="trailing" id="aEz-fJ-9SN"/>
                             <constraint firstItem="dbm-TT-7RT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dQz-x4-etH"/>
                             <constraint firstItem="ze5-X2-cge" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hjT-E4-bYD"/>
+                            <constraint firstItem="DWA-em-BVT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iSv-5l-yLo"/>
                             <constraint firstItem="ze5-X2-cge" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mFX-vF-Ud1"/>
                             <constraint firstItem="V2Y-NX-iYx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-100" id="pPq-f5-c6y"/>
                             <constraint firstItem="dbm-TT-7RT" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="qLW-sX-C6H"/>
@@ -166,7 +212,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="spinner" destination="zOw-zh-MWj" id="zNb-78-2xt"/>
                         <outlet property="tableView" destination="dbm-TT-7RT" id="lps-uB-64k"/>
+                        <outlet property="unDeleteView" destination="DWA-em-BVT" id="lSY-sb-byz"/>
                         <outlet property="welcomeLbl" destination="V2Y-NX-iYx" id="SMy-ci-9Y6"/>
                     </connections>
                 </viewController>
@@ -416,6 +464,9 @@
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
