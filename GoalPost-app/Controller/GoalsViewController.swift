@@ -13,20 +13,15 @@ let appDelegate = UIApplication.shared.delegate as? AppDelegate
 class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     var goals: [Goal] = []
-    
-    //var deletedGoal: Goal!
-    
     var deletedGoalDescription: String!
     var deletedGoalType: String!
     var deletedGoalProgress: Int32!
     var deletedGoalComplitionValue:Int32!
-    //var deletedGoals: [DeletedGoal] = []
 
     // OUTLETS
     @IBOutlet weak var welcomeLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var unDeleteView: UIView!
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -38,10 +33,8 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewWillAppear(animated)
         print("viewWillAppear works")
         fetchCoreeDataObjects()
-        //deletedGoal = Goal()
         unDeleteView.isHidden = true
         tableView.reloadData()
-        
     }
     
     func fetchCoreeDataObjects() {
@@ -53,7 +46,6 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 } else {
                     tableView.isHidden = true
                 }
-                
             }
         }
     }
@@ -96,13 +88,8 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         uNgoal.goalType = deletedGoalType
         uNgoal.goalProgres = deletedGoalProgress
         uNgoal.goalCompletionValue = deletedGoalComplitionValue
-//        uNgoal.goalDesription = deletedGoal.goalDesription
-//        print(uNgoal.goalDesription)
-//        uNgoal.goalType = deletedGoal.goalType
-//        uNgoal.goalCompletionValue = deletedGoal.goalCompletionValue
-//        uNgoal.goalProgres = deletedGoal.goalProgres
         
-        print("\n\n\n Deleted goal was: \(uNgoal.goalDesription)")
+        print("\n\n\n Deleted goal was: \(String(describing: uNgoal.goalDesription))")
         do{
        try managedContext.save()
             print("Successfully saved back Deleted data.")
@@ -137,22 +124,31 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     //NEED TO UPDATE THIS FUNCTION! deprecated
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { (rowAction, indexPath) in
-            self.removeGoal(atIndexPath: indexPath)
-            self.fetchCoreeDataObjects()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
             
-        }
-        let addAction = UITableViewRowAction(style: .normal, title: "ADD 1") { (rowAction, indexPath) in
+                self.removeGoal(atIndexPath: indexPath)
+                self.fetchCoreeDataObjects()
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                print("Successfully Deleted goal")
+            
+          })
+          deleteAction.backgroundColor = .red
+        let addProgressAction = UIContextualAction(style: .normal, title: "Add +1") { (action, view, success) in
             self.setProgressForGoal(atIndexPath: indexPath)
             tableView.reloadRows(at: [indexPath], with: .automatic)
+            print("\n Successfully add progress to goal: \(String(describing: self.goals[indexPath.row].goalDesription))")
+            
+            let alert  = UIAlertController(title: "Done! ", message: "Progress added" ,preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK ", style: .default, handler: nil)
+                    alert.addAction(okAction)
+                    alert.popoverPresentationController?.sourceView = self.view //
+                    self.present(alert, animated: true, completion: nil)
         }
+        deleteAction.image = UIImage(named: "Trash")
         deleteAction.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-        addAction.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        
-    return [deleteAction, addAction]
+        addProgressAction.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+          return UISwipeActionsConfiguration(actions: [deleteAction, addProgressAction])
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -168,13 +164,6 @@ class GoalsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         spinner.stopAnimating()
         unDeleteView.isHidden = true
     }
-    
-//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-//
-//let sureToDelete = "to delete?"
-//        print("title for delete")
-//        return sureToDelete
-//    }
     
     func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
         tableView.reloadData()
@@ -209,7 +198,7 @@ extension GoalsViewController {
         deletedGoalComplitionValue = goalToDelete.goalCompletionValue
         //deletedGoalType = goalToDelete.goalType
         //deletedGoal = goalToDelete
-        print("\n\nto delete: \(deletedGoalDescription)")
+        print("\n\nto delete: \(String(describing: deletedGoalDescription))")
         unDeleteView.isHidden = false
         
         managedContext.delete(goals[indexPath.row])
@@ -220,8 +209,6 @@ extension GoalsViewController {
             debugPrint("\nCould not remove \(error.localizedDescription)")
         }
     }
-    
-    
     
     func setProgressForGoal(atIndexPath indexPath: IndexPath) {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
@@ -238,6 +225,4 @@ extension GoalsViewController {
             debugPrint("Could not set progress: \(error.localizedDescription)")
         }
     }
-    
-    
 }

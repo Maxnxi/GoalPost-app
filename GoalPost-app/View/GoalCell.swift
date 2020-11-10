@@ -12,19 +12,15 @@ class GoalCell: UITableViewCell {
     @IBOutlet weak var goalDescription: UILabel!
     @IBOutlet weak var typeOfGoal: UILabel!
     @IBOutlet weak var goalProgressLbl: UILabel!
-    
     @IBOutlet weak var completeView: UIView!
     @IBOutlet weak var completeLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     func configureCell(goal: Goal) {
@@ -37,7 +33,5 @@ class GoalCell: UITableViewCell {
         } else {
             self.completeView.isHidden = true
         }
-        
     }
-    
 }

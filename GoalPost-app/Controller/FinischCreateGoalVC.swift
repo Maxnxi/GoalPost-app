@@ -39,6 +39,7 @@ class FinischCreateGoalVC: UIViewController, UITextFieldDelegate {
     @IBAction func backBtnWasPressed(_ sender: Any) {
         dismissDetail()
     }
+    
     @IBAction func createGoalBtnWasPressed(_ sender: Any) {
             if pointsToComplete.text != "" {
             print("create goal Btn Was Pressed!")
